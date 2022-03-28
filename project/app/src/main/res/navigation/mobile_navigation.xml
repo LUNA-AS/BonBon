@@ -8,18 +8,20 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.bonbon.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="@string/menu_dashboard"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.bonbon.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_class_list"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.bonbon.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_assessment"
         tools:layout="@layout/fragment_slideshow" />
+
+
 </navigation>
