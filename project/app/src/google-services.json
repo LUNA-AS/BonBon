@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "153454670029",
+    "project_id": "bonbon-f23be",
+    "storage_bucket": "bonbon-f23be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153454670029:android:b397fb35435088bfe4f984",
+        "android_client_info": {
+          "package_name": "com.example.bonbon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153454670029-6nsinainplto72ii7qdaftkptoguvmou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCP5hCA2dDlG53Yf6Kj1MXRTuaJxPCxuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153454670029-6nsinainplto72ii7qdaftkptoguvmou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
