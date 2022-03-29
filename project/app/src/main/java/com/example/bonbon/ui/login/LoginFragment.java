@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String email = emailIn.getText().toString();
+                String email = emailIn.getText().toString().trim();
                 String password = passIn.getText().toString();
 
                 // Sign in with encrypted password
@@ -69,8 +69,12 @@ public class LoginFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            startActivity(new Intent(getContext(), MainActivity.class));
-                                            getActivity().finish();
+                                            if (mAuth.getCurrentUser().isEmailVerified()) {
+                                                startActivity(new Intent(getContext(), MainActivity.class));
+                                                getActivity().finish();
+                                            } else {
+                                                Toast.makeText(getContext(), "Please verify your email address", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
                                             Toast.makeText(getContext(), "Login Error: " + task.getException()
                                                     .getMessage(), Toast.LENGTH_SHORT).show();

@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is logged in
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
 }

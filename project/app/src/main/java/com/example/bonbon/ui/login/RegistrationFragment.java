@@ -108,9 +108,14 @@ public class RegistrationFragment extends Fragment {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(getContext(),
                                                                         "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
+                                                                // Go back to sign in
+                                                                getActivity().getSupportFragmentManager().beginTransaction()
+                                                                        .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
+                                                                        .commit();
                                                             } else {
                                                                 Toast.makeText(getContext(),
-                                                                        "Failed to send email verification. Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                        "Failed to send email verification. Error: " + task.getException()
+                                                                                .getMessage(), Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                     });
