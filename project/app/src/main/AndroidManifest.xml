@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BonBon">
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewObservation"
             android:exported="false" />
         <activity

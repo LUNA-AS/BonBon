@@ -3,12 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/activity_new_observation.xml" value="0.536" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.33197278911564626" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout-w936dp/activity_login.xml" value="0.190625" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/activity_new_observation.xml" value="0.2" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/class_list_item.xml" value="0.264" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/content_main.xml" value="0.176" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/fragment_class_list.xml" value="0.2" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/fragment_guide.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/fragment_login.xml" value="0.176" />
+        <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/layout/nav_header_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/menu/activity_main_drawer.xml" value="0.4" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/menu/main.xml" value="0.264" />
         <entry key="..\:/Users/Luna/BonBonApp/project/app/src/main/res/xml/root_preferences.xml" value="0.536" />

@@ -25,4 +25,10 @@ public class Encryption {
 
         return key;
     }
+
+    public String encryptStringData(String data){
+        String result = "";
+
+        return result;
+    }
 }
