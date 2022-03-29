@@ -44,4 +44,5 @@
     <string name="log_in">Log In</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="sign_in_instead">Already have an account? Sign in instead</string>
 </resources>

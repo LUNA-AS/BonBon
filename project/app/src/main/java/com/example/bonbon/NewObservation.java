@@ -1,9 +1,11 @@
 package com.example.bonbon;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 
 public class NewObservation extends AppCompatActivity {
 
@@ -11,15 +13,16 @@ public class NewObservation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_observation);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("New Observation");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
+        ImageButton imageButton = findViewById(R.id.observationBackButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishActivity();
+            }
+        });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
+    public void finishActivity() {
         this.finish();
-        return true;
     }
 }
