@@ -84,8 +84,8 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary_variant"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/design_default_color_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -94,8 +94,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/observationBackButton"
             android:text="New Observation"
             android:textColor="@color/white"
@@ -110,10 +112,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:backgroundTint="#00FFFFFF"
             app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-            tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="26dp"
             app:tint="@color/white" />
     </RelativeLayout>
 

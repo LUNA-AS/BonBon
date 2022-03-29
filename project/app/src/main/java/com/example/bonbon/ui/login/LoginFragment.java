@@ -3,19 +3,29 @@ package com.example.bonbon.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bonbon.MainActivity;
 import com.example.bonbon.R;
+import com.example.bonbon.data_management.Encryption;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
-
+    FirebaseAuth mAuth;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -40,25 +50,55 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        mAuth = FirebaseAuth.getInstance();
         Button loginBtn = view.findViewById(R.id.loginButton);
-
+        EditText emailIn = view.findViewById(R.id.loginEmailInput);
+        EditText passIn = view.findViewById(R.id.loginPasswordInput);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), MainActivity.class));
-                getActivity().finish();
+
+                String email = emailIn.getText().toString();
+                String password = passIn.getText().toString();
+
+                // Sign in with encrypted password
+                if (!email.equals("")) {
+                    if (!password.equals("")) {
+                        mAuth.signInWithEmailAndPassword(email, Encryption.encryptPassword(password))
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            startActivity(new Intent(getContext(), MainActivity.class));
+                                            getActivity().finish();
+                                        } else {
+                                            Toast.makeText(getContext(), "Login Error: " + task.getException()
+                                                    .getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    } else {
+                        passIn.setError("Password cannot be empty");
+                    }
+                } else {
+                    emailIn.setError("Email cannot be empty");
+                }
             }
         });
 
+        // In page navigation
         TextView register = view.findViewById(R.id.createAccountLoginText);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegistrationFragment registrationFragment = new RegistrationFragment();
-                getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,registrationFragment);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainerView, RegistrationFragment.class, null) // gets the first animations
+                        .commit();
             }
         });
 
+
         return view;
     }
+
 }

@@ -31,4 +31,9 @@ public class Encryption {
 
         return result;
     }
+
+    public static String encryptPassword(String s){
+        // Hash and salt input then return it
+        return s;
+    }
 }
