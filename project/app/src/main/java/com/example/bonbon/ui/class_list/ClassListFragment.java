@@ -3,12 +3,22 @@ package com.example.bonbon.ui.class_list;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.bonbon.R;
+import com.example.bonbon.adapters.ClassListAdapter;
+import com.example.bonbon.data_models.Child;
+
+import java.util.ArrayList;
+
 public class ClassListFragment extends Fragment {
     public ClassListFragment() {
         // Required empty public constructor
@@ -37,7 +47,45 @@ public class ClassListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_class_list, container, false);
 
         // Linking UI components
+        RecyclerView classListRecycler = view.findViewById(R.id.classListRecycler);
+        EditText searchBar = view.findViewById(R.id.classSearchBar);
 
+        // TODO get data from database
+        ArrayList<Child> children = new ArrayList<>();
+        children.add(new Child("test 1", "test1"));
+        children.add(new Child("test 2", "test2"));
+        children.add(new Child("test 3", "test3"));
+
+        // Set up the list view
+        ClassListAdapter adapter = new ClassListAdapter(children, getContext());
+        classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        classListRecycler.setAdapter(adapter);
+
+
+        // Set up the search bar
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String filter = editable.toString();
+                ArrayList<Child> filteredList = new ArrayList<>();
+                for(Child c : children){
+                    if(c.getFirstName().contains(filter)|| c.getLastName().contains(filter)){
+                        filteredList.add(c);
+                    }
+                }
+                adapter.filter(filteredList);
+            }
+        });
         return view;
     }
 }

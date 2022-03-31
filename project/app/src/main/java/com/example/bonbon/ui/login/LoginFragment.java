@@ -70,6 +70,8 @@ public class LoginFragment extends Fragment {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             if (mAuth.getCurrentUser().isEmailVerified()) {
+                                                System.out.println("encryption test-------------------");
+                                                Encryption.encryptUsername(mAuth.getCurrentUser().getUid());
                                                 startActivity(new Intent(getContext(), MainActivity.class));
                                                 getActivity().finish();
                                             } else {
@@ -100,9 +102,6 @@ public class LoginFragment extends Fragment {
                         .commit();
             }
         });
-
-
         return view;
     }
-
 }
