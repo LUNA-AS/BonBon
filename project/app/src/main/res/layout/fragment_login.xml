@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#D3C5F3">
 
         <ImageView
             android:id="@+id/loginAppLogo"
@@ -39,6 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:layout_marginTop="140dp"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -53,6 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:ems="10"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:hint="@string/password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="21dp"
             android:text="@string/register_instead"
+            android:background="@drawable/round_corners"
+            android:padding="5dp"
+            android:backgroundTint="#C1E5E3E8"
             android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@+id/resetPasswordLoginText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +93,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:background="@drawable/round_corners"
+            android:padding="5dp"
+            android:backgroundTint="#C1E5E3E8"
             android:text="@string/reset_password"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

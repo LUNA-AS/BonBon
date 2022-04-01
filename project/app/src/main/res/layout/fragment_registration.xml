@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.RegistrationFragment">
+    tools:context=".ui.login.RegistrationFragment"
+    android:background="#D3C5F3">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,6 +41,8 @@
             android:layout_margin="20dp"
             android:layout_marginTop="140dp"
             android:ems="10"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,8 +54,8 @@
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_in"
-            app:layout_constraintBottom_toTopOf="@+id/createAccountLoginText"
+            android:text="Register"
+            app:layout_constraintBottom_toTopOf="@+id/logInInsteadText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerConfirmPasswordInput" />
@@ -63,6 +66,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="@string/sign_in_instead"
+            android:background="@drawable/round_corners"
+            android:padding="5dp"
+            android:backgroundTint="#C1E5E3E8"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +80,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Last Name"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:layout_margin="20dp"
             android:inputType="textPersonName"
             app:layout_constraintTop_toBottomOf="@+id/registerFirstNameInput"
@@ -86,8 +94,10 @@
             android:layout_margin="20dp"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:hint="@string/password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerPasswordInput" />
@@ -100,6 +110,8 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/password"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@+id/registerLastNameInput"
             tools:layout_editor_absoluteX="20dp" />
@@ -110,6 +122,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="First Name"
+            android:background="@drawable/round_corners"
+            android:padding="10dp"
             android:layout_margin="20dp"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
