@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
 import com.example.bonbon.data_models.Child;
@@ -63,10 +64,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, PupilProfileActivity.class);
-                intent.putExtra("firstName" ,children.get(position).getFirstName());
-                intent.putExtra("lastName" ,children.get(position).getFirstName());
-                intent.putExtra("dateOfBirth" ,children.get(position).getFirstName());
-                intent.putExtra("address" ,children.get(position).getAddress());
+                intent.putExtra("firstName", children.get(position).getFirstName());
+                intent.putExtra("lastName", children.get(position).getFirstName());
+                intent.putExtra("dateOfBirth", children.get(position).getFirstName());
+                intent.putExtra("address", children.get(position).getAddress());
                 // TODO add metrics
                 context.startActivity(intent);
             }
@@ -79,13 +80,24 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             }
         });
 
-        holder.profilePic.setImageResource(R.drawable.ic_baseline_person_24);
+        System.out.println(children.get(position).getImage());
+        if (children.get(position).getImage() == null) {
+            holder.profilePic.setImageResource(R.drawable.ic_baseline_person_24);
+        } else {
+            Glide.with(context).load(children.get(position).getImage()).into(holder.profilePic);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return children.size();
+        int size = 0;
+        try {
+            size = children.size();
+        } catch (Exception e) {
+            size = 0;
+        }
+        return size;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -103,7 +115,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         }
     }
 
-    public void filter(ArrayList<Child> filteredList){
+    public void filter(ArrayList<Child> filteredList) {
         children = filteredList;
         notifyDataSetChanged();
     }

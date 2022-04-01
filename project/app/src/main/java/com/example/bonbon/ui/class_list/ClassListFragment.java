@@ -1,8 +1,10 @@
 package com.example.bonbon.ui.class_list;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import com.example.bonbon.NewPupilProfile;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ClassListAdapter;
 import com.example.bonbon.data_models.Child;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -117,6 +120,9 @@ public class ClassListFragment extends Fragment {
 
     public void getPupils(RecyclerView classListRecycler, ClassListAdapter adapter) {
 
+        adapter.setContext(getContext());
+        classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        classListRecycler.setAdapter(adapter);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String teacherID = auth.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -132,18 +138,26 @@ public class ClassListFragment extends Fragment {
                     String dob = ds.getString("dob");
                     String phone = ds.getString("phone");
                     String address = ds.getString("address");
-                    Child c = new Child(firstName, lastName);
-                    c.setAddress(address);
-                    c.setDateOfBirth(dob);
-                    pupils.add(c);
+                    final Uri[] image = {null};
+                    System.out.println("--------ID: " + ds.getId());
+                    //storage.getReference().child("profile_pictures").child(ds.getId() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storage.getReference().child("profile_picturescIP4QOotcYcd9588SkYi.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Child c = new Child(firstName, lastName);
+                            c.setAddress(address);
+                            c.setDateOfBirth(dob);
+                            c.setImage(uri);
+                            pupils.add(c);
+                            adapter.setChildren(pupils);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                 }
 
                 // Set up the list view
                 children = pupils;
-                adapter.setContext(getContext());
-                adapter.setChildren(pupils);
-                classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                classListRecycler.setAdapter(adapter);
+
             }
         });
         DocumentReference reference = db.collection("teachers").document(teacherID);
@@ -165,12 +179,10 @@ public class ClassListFragment extends Fragment {
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
                             pupils.add(c);
+                            adapter.setChildren(pupils);
+                            adapter.notifyDataSetChanged();
                         }
 
-                        // Set up the list view
-                        children = pupils;
-                        adapter.setChildren(pupils);
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }
