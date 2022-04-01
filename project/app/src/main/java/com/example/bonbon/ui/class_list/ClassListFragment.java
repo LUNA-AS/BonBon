@@ -3,6 +3,7 @@ package com.example.bonbon.ui.class_list;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +19,26 @@ import com.example.bonbon.NewPupilProfile;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ClassListAdapter;
 import com.example.bonbon.data_models.Child;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ClassListFragment extends Fragment {
+    ArrayList<Child> children;
+
     public ClassListFragment() {
         // Required empty public constructor
+        children = new ArrayList<>();
     }
 
 
@@ -53,16 +67,14 @@ public class ClassListFragment extends Fragment {
         RecyclerView classListRecycler = view.findViewById(R.id.classListRecycler);
         EditText searchBar = view.findViewById(R.id.classSearchBar);
 
-        // TODO get data from database
-        ArrayList<Child> children = new ArrayList<>();
-        children.add(new Child("test 1", "test1"));
-        children.add(new Child("test 2", "test2"));
-        children.add(new Child("test 3", "test3"));
 
-        // Set up the list view
-        ClassListAdapter adapter = new ClassListAdapter(children, getContext());
-        classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        classListRecycler.setAdapter(adapter);
+        // create adapter
+        ClassListAdapter adapter = new ClassListAdapter();
+
+
+        // Populate class list
+        getPupils(classListRecycler, adapter);
+
 
         // Set up the search bar
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -81,7 +93,10 @@ public class ClassListFragment extends Fragment {
                 String filter = editable.toString();
                 ArrayList<Child> filteredList = new ArrayList<>();
                 for (Child c : children) {
-                    if (c.getFirstName().contains(filter) || c.getLastName().contains(filter)) {
+                    if (c.getFirstName().toLowerCase(Locale.ROOT)
+                            .contains(filter.toLowerCase(Locale.ROOT)) ||
+                            c.getLastName().toLowerCase(Locale.ROOT)
+                                    .contains(filter.toLowerCase(Locale.ROOT))) {
                         filteredList.add(c);
                     }
                 }
@@ -98,5 +113,68 @@ public class ClassListFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void getPupils(RecyclerView classListRecycler, ClassListAdapter adapter) {
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String teacherID = auth.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        db.collection("teachers").document(teacherID).collection("class")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                ArrayList<Child> pupils = new ArrayList<>();
+                for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                    String firstName = ds.getString("firstName");
+                    String lastName = ds.getString("lastName");
+                    String dob = ds.getString("dob");
+                    String phone = ds.getString("phone");
+                    String address = ds.getString("address");
+                    Child c = new Child(firstName, lastName);
+                    c.setAddress(address);
+                    c.setDateOfBirth(dob);
+                    pupils.add(c);
+                }
+
+                // Set up the list view
+                children = pupils;
+                adapter.setContext(getContext());
+                adapter.setChildren(pupils);
+                classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                classListRecycler.setAdapter(adapter);
+            }
+        });
+        DocumentReference reference = db.collection("teachers").document(teacherID);
+        reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                db.collection("teachers").document(teacherID).collection("class")
+                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        ArrayList<Child> pupils = new ArrayList<>();
+                        for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                            String firstName = ds.getString("firstName");
+                            String lastName = ds.getString("lastName");
+                            String dob = ds.getString("dob");
+                            String phone = ds.getString("phone");
+                            String address = ds.getString("address");
+                            Child c = new Child(firstName, lastName);
+                            c.setAddress(address);
+                            c.setDateOfBirth(dob);
+                            pupils.add(c);
+                        }
+
+                        // Set up the list view
+                        children = pupils;
+                        adapter.setChildren(pupils);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+
     }
 }

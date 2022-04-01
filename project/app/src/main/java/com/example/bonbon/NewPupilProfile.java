@@ -114,6 +114,7 @@ public class NewPupilProfile extends AppCompatActivity {
     public void storeProfilePicture(String id, Uri image) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("profile_pictures/" + id + ".jpg").putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 System.out.println("uploaded image");
