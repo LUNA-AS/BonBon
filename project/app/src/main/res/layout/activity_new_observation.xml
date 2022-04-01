@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:background="#D3C5F3"
     tools:context=".NewObservation">
 
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@color/white"
+        android:background="@drawable/round_corners"
         android:hint="Enter your observation here..."
         android:lines="6"
         android:padding="5dp"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@color/white"
+        android:background="@drawable/round_corners"
         android:completionHint="select a pupil"
         android:dropDownHeight="wrap_content"
         android:hint="Who is this observation about?"
