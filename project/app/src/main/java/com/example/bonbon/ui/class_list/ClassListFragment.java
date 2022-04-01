@@ -140,14 +140,24 @@ public class ClassListFragment extends Fragment {
                     String address = ds.getString("address");
                     final Uri[] image = {null};
                     System.out.println("--------ID: " + ds.getId());
-                    //storage.getReference().child("profile_pictures").child(ds.getId() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    storage.getReference().child("profile_picturescIP4QOotcYcd9588SkYi.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storage.getReference().child("profile_pictures").child(ds.getId() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        //storage.getReference().child("profile_picturescIP4QOotcYcd9588SkYi.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Child c = new Child(firstName, lastName);
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
                             c.setImage(uri);
+                            pupils.add(c);
+                            adapter.setChildren(pupils);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Child c = new Child(firstName, lastName);
+                            c.setAddress(address);
+                            c.setDateOfBirth(dob);
                             pupils.add(c);
                             adapter.setChildren(pupils);
                             adapter.notifyDataSetChanged();
