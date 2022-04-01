@@ -1,8 +1,21 @@
 package com.example.bonbon.data_models;
 
+import android.net.Uri;
+
+import java.net.URI;
+
 public class Child {
     private String ID, firstName, lastName, address, dateOfBirth;
     int avgScore;
+    Uri image;
+
+    public Uri getImage() {
+        return image;
+    }
+
+    public void setImage(Uri image) {
+        this.image = image;
+    }
 
     public Child(String firstName, String lastName) {
         this.firstName = firstName;
