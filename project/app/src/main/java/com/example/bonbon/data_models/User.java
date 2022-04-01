@@ -1,7 +1,7 @@
 package com.example.bonbon.data_models;
 
 public class User {
-    private static String firstName, lastName, email, password, ID;
+    private String firstName, lastName, email, password, ID;
 
     public String getFirstName() {
         return firstName;

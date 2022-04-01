@@ -1,5 +1,6 @@
 package com.example.bonbon.ui.class_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.bonbon.NewPupilProfile;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ClassListAdapter;
 import com.example.bonbon.data_models.Child;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -61,7 +64,6 @@ public class ClassListFragment extends Fragment {
         classListRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         classListRecycler.setAdapter(adapter);
 
-
         // Set up the search bar
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,12 +80,21 @@ public class ClassListFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String filter = editable.toString();
                 ArrayList<Child> filteredList = new ArrayList<>();
-                for(Child c : children){
-                    if(c.getFirstName().contains(filter)|| c.getLastName().contains(filter)){
+                for (Child c : children) {
+                    if (c.getFirstName().contains(filter) || c.getLastName().contains(filter)) {
                         filteredList.add(c);
                     }
                 }
                 adapter.filter(filteredList);
+            }
+        });
+
+        // Floating action button
+        FloatingActionButton addPupilButton = view.findViewById(R.id.newPupil);
+        addPupilButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), NewPupilProfile.class));
             }
         });
         return view;

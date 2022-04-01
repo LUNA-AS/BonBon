@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BonBon">
         <activity
+            android:name=".NewPupilProfile"
+            android:exported="false" />
+        <activity
             android:name=".ui.profiles.PupilProfileActivity"
             android:exported="false" />
         <activity

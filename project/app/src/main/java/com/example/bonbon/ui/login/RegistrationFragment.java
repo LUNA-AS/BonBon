@@ -17,9 +17,16 @@ import com.example.bonbon.R;
 import com.example.bonbon.data_management.Encryption;
 import com.example.bonbon.data_models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+//import com.google.crypto.tink.KeyTemplates;
+//import com.google.crypto.tink.KeysetHandle;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 
 public class RegistrationFragment extends Fragment {
@@ -94,6 +101,7 @@ public class RegistrationFragment extends Fragment {
                                 lastNameIn.setError("This field cannot be empty");
                             } else {
 // =========================================== VALID INPUT =========================================
+                                // Initialize user instance with verified data
                                 user = new User(firstName, lastName, email, Encryption.encryptPassword(password));
                                 // Initialize auth
                                 mAuth = FirebaseAuth.getInstance();
@@ -108,6 +116,12 @@ public class RegistrationFragment extends Fragment {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(getContext(),
                                                                         "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
+
+                                                                user.setID(mAuth.getUid());
+
+                                                                // add data to database
+                                                                addUserToDatabase(user);
+
                                                                 // Go back to sign in
                                                                 getActivity().getSupportFragmentManager().beginTransaction()
                                                                         .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
@@ -145,5 +159,40 @@ public class RegistrationFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void addUserToDatabase(User user) {
+        // get database reference
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Convert user to a hash map
+        HashMap<String, String> map = new HashMap<>();
+        map.put("firstName", user.getFirstName());
+        map.put("lastName", user.getLastName());
+
+        // Add map to users collection on db
+        db.collection("teachers").document(user.getID()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                generateUserKey(user.getID());
+            }
+        });
+
+    }
+
+    private void generateUserKey(String uid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String id = Encryption.encryptUsername(uid);
+        // generate encryption key for user
+        String key = Encryption.generateEncryptionKey();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("key", key);
+        db.collection("keys").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                // TODO add logging
+                System.out.println("added key pair");
+            }
+        });
     }
 }
