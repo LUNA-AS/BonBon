@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,6 +21,11 @@ import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
 import com.example.bonbon.data_models.Child;
 import com.example.bonbon.ui.profiles.PupilProfileActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -54,7 +60,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ClassListAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(children.get(position).getFirstName() + " " + children.get(position).getLastName());
-        // TODO add profile images from database
+
+        getAvgScores();
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +74,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 intent.putExtra("image", children.get(position).getImage());
                 // TODO add metrics
                 context.startActivity(intent);
+                Toast.makeText(context, "" + children.get(position).getAvgScore(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,5 +122,38 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
     public void filter(ArrayList<Child> filteredList) {
         children = filteredList;
         notifyDataSetChanged();
+    }
+
+    public void getAvgScores() {
+        System.out.println("get avg scores called");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (Child c : children) {
+            String id = c.getID();
+            db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
+                    .collection("class").document(id).collection("assessments")
+                    .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    int sTotal = 0;
+                    int hTotal = 0;
+                    int lTotal = 0;
+                    int count = queryDocumentSnapshots.getDocuments().size();
+                    for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                        sTotal += ds.get("social", Integer.class);
+                        hTotal += ds.get("health", Integer.class);
+                        lTotal += ds.get("learning", Integer.class);
+                    }
+                    int avgScore = 3;
+                    if (count > 0) {
+                        avgScore = sTotal / count + hTotal / count + lTotal / count;
+                        avgScore = avgScore / 3;
+                    }
+                    c.setAvgScore(avgScore);
+                }
+            });
+
+        }
+
     }
 }

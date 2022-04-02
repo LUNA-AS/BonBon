@@ -2,6 +2,12 @@ package com.example.bonbon.data_models;
 
 import android.net.Uri;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.net.URI;
 
 public class Child {
@@ -69,4 +75,5 @@ public class Child {
     public void setAvgScore(int avgScore) {
         this.avgScore = avgScore;
     }
+
 }

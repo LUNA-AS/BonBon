@@ -149,6 +149,7 @@ public class ClassListFragment extends Fragment {
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
                             c.setImage(uri);
+                            c.setID(ds.getId());
                             pupils.add(c);
                             adapter.setChildren(pupils);
                             adapter.notifyDataSetChanged();
@@ -159,6 +160,7 @@ public class ClassListFragment extends Fragment {
                             Child c = new Child(firstName, lastName);
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
+                            c.setID(ds.getId());
                             pupils.add(c);
                             adapter.setChildren(pupils);
                             adapter.notifyDataSetChanged();

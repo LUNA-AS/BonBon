@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -16,12 +17,21 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.example.bonbon.R;
 import com.example.bonbon.data_models.Child;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AssessmentPagerAdapter extends PagerAdapter {
     Context context;
     private ArrayList<Child> children;
+
+    public void setChildren(ArrayList<Child> children) {
+        this.children = children;
+    }
 
     public AssessmentPagerAdapter(Context context, ArrayList<Child> children) {
         this.context = context;
@@ -54,9 +64,60 @@ public class AssessmentPagerAdapter extends PagerAdapter {
 
         // Set values
         name.setText(children.get(position).getFirstName() + " " + children.get(position).getLastName());
-        Glide.with(context).load(children.get(position).getImage());
-        
+        if (children.get(position).getImage() != null) {
+            Glide.with(context).load(children.get(position).getImage()).into(profilePic);
+        }
 
-        return super.instantiateItem(container, position);
+        // save assessment
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, Float> results = new HashMap<>();
+
+                if (socialRB.getRating() > 0) {
+                    results.put("social", socialRB.getRating());
+                } else {
+                    socialRB.setRating(3F);
+                    results.put("social", 3F);
+                }
+                if (healthRB.getRating() > 0) {
+                    results.put("health", healthRB.getRating());
+                } else {
+                    healthRB.setRating(3F);
+                    results.put("health", 3F);
+                }
+                if (learningRB.getRating() > 0) {
+                    results.put("learning", learningRB.getRating());
+                } else {
+                    learningRB.setRating(3F);
+                    results.put("learning", 3F);
+                }
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
+                        .collection("class").document(children.get(position).getID())
+                        .collection("assessments").add(results)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                children.remove(position);
+                                Toast.makeText(context, "saved assessment for " + name.getText().toString(), Toast.LENGTH_SHORT).show();
+                                notifyDataSetChanged();
+                            }
+                        });
+
+            }
+        });
+        try {
+            container.addView(view, position);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return view;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
     }
 }
