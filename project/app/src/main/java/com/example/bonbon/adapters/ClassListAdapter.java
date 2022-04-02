@@ -68,6 +68,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 intent.putExtra("lastName", children.get(position).getFirstName());
                 intent.putExtra("dateOfBirth", children.get(position).getFirstName());
                 intent.putExtra("address", children.get(position).getAddress());
+                intent.putExtra("image", children.get(position).getImage());
                 // TODO add metrics
                 context.startActivity(intent);
             }
