@@ -16,6 +16,7 @@ import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
 import com.example.bonbon.data_models.Observation;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ObservationsAdapter extends RecyclerView.Adapter<ObservationsAdapter.ViewHolder> {
@@ -36,8 +37,8 @@ public class ObservationsAdapter extends RecyclerView.Adapter<ObservationsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        // TODO change time to be a formatted string within the class Observation
-        holder.timestamp.setText(String.valueOf(observations.get(position).getTimeStamp()));
+        SimpleDateFormat sdf = new SimpleDateFormat("d/MMM/yy hh:mm");
+        holder.timestamp.setText(sdf.format(observations.get(position).getTimeStamp()));
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

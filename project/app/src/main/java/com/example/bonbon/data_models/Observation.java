@@ -3,23 +3,23 @@ package com.example.bonbon.data_models;
 import java.util.ArrayList;
 
 public class Observation {
-    ArrayList<String> tags;
+    String tags;
     String body;
     long timeStamp;
     String image;
 
-    public Observation(ArrayList<String> tags, String body, long timeStamp, String image) {
+    public Observation(String tags, String body, long timeStamp, String image) {
         this.tags = tags;
         this.body = body;
         this.timeStamp = timeStamp;
         this.image = image;
     }
 
-    public ArrayList<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 

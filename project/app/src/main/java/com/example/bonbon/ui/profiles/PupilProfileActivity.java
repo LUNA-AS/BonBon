@@ -16,7 +16,13 @@ import com.bumptech.glide.Glide;
 import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ObservationsAdapter;
+import com.example.bonbon.data_management.Encryption;
 import com.example.bonbon.data_models.Observation;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -55,13 +61,31 @@ public class PupilProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Set up observations list
-        RecyclerView observationRecycler = findViewById(R.id.pupilObservationsRecycler);
-        ArrayList<Observation> observations = new ArrayList<>();
-        observations.add(new Observation(new ArrayList<String>(), "", System.currentTimeMillis(), ""));
-        ObservationsAdapter adapter = new ObservationsAdapter(observations, PupilProfileActivity.this);
-        observationRecycler.setLayoutManager(new LinearLayoutManager(PupilProfileActivity.this));
-        observationRecycler.setAdapter(adapter);
+        // Load notes
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
+                .collection("notes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                // Find notes with related tags
+                ArrayList<Observation> observations = new ArrayList<>();
+                for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                    if (ds.getString("tags").contains(firstNameString + " " + lastNameString)) {
+                        long l = Long.parseLong(ds.getString("timestamp").trim());
+                        Observation o = new Observation(Encryption.decryptStringData(ds.getString("tags")), Encryption.decryptStringData(ds.getString("body")),
+                                l, ds.getString("imageRef"));
+                        observations.add(o);
+                    }
+                }
+                // Set up observations list
+                RecyclerView observationRecycler = findViewById(R.id.pupilObservationsRecycler);
+                ObservationsAdapter adapter = new ObservationsAdapter(observations, PupilProfileActivity.this);
+                observationRecycler.setLayoutManager(new LinearLayoutManager(PupilProfileActivity.this));
+                observationRecycler.setAdapter(adapter);
+
+            }
+        });
+
 
     }
 }

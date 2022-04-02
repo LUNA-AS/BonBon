@@ -65,7 +65,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
             public void onClick(View view) {
                 Intent intent = new Intent(context, PupilProfileActivity.class);
                 intent.putExtra("firstName", children.get(position).getFirstName());
-                intent.putExtra("lastName", children.get(position).getFirstName());
+                intent.putExtra("lastName", children.get(position).getLastName());
                 intent.putExtra("dateOfBirth", children.get(position).getFirstName());
                 intent.putExtra("address", children.get(position).getAddress());
                 intent.putExtra("image", children.get(position).getImage());
