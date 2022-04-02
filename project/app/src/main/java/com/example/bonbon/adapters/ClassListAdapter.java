@@ -72,7 +72,11 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 intent.putExtra("dateOfBirth", children.get(position).getFirstName());
                 intent.putExtra("address", children.get(position).getAddress());
                 intent.putExtra("image", children.get(position).getImage());
-                // TODO add metrics
+                intent.putExtra("avgScore", children.get(position).getAvgScore());
+                intent.putExtra("avgL", children.get(position).getAvgL());
+                intent.putExtra("avgS", children.get(position).getAvgS());
+                intent.putExtra("avgH", children.get(position).getAvgH());
+
                 context.startActivity(intent);
                 Toast.makeText(context, "" + children.get(position).getAvgScore(), Toast.LENGTH_SHORT).show();
             }
@@ -145,11 +149,20 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                         lTotal += ds.get("learning", Integer.class);
                     }
                     int avgScore = 3;
+                    int avgS = 3;
+                    int avgL = 3;
+                    int avgH = 3;
                     if (count > 0) {
+                        avgS = sTotal / count;
+                        avgH = hTotal / count;
+                        avgL = lTotal / count;
                         avgScore = sTotal / count + hTotal / count + lTotal / count;
                         avgScore = avgScore / 3;
                     }
                     c.setAvgScore(avgScore);
+                    c.setAvgS(avgS);
+                    c.setAvgL(avgL);
+                    c.setAvgH(avgH);
                 }
             });
 

@@ -38,6 +38,19 @@ public class PupilProfileActivity extends AppCompatActivity {
         String lastNameString = getIntent().getExtras().getString("lastName");
         Uri image = (Uri) getIntent().getExtras().get("image");
 
+
+        // set up indicators
+        int sPoints = (Integer) getIntent().getExtras().get("avgS");
+        int hPoints = (Integer) getIntent().getExtras().get("avgH");
+        int lPoints = (Integer) getIntent().getExtras().get("avgL");
+        TextView sText = findViewById(R.id.sPoints);
+        TextView hText = findViewById(R.id.hPoints);
+        TextView lText = findViewById(R.id.lPoints);
+        setStarIndicator(sPoints, sText);
+        setStarIndicator(hPoints, hText);
+        setStarIndicator(lPoints, lText);
+
+
         // Link UI components
         TextView firstName = findViewById(R.id.pupilProfileFirstName);
         TextView lastName = findViewById(R.id.pupilProfileLastName);
@@ -88,4 +101,35 @@ public class PupilProfileActivity extends AppCompatActivity {
 
 
     }
+    private void setStarIndicator(int score, TextView textView) {
+        String text = "★★☆☆☆";
+        switch (score) {
+            case 0:
+                text = "☆☆☆☆☆";
+                textView.setText(text);
+                break;
+            case 1:
+                text = "★☆☆☆☆";
+                textView.setText(text);
+                break;
+            case 2:
+                text = "★★☆☆☆";
+                textView.setText(text);
+                break;
+            case 4:
+                text = "★★★★☆";
+                textView.setText(text);
+                break;
+            case 5:
+                text = "★★★★★";
+                textView.setText(text);
+                break;
+            default:
+                text = "★★★☆☆";
+                textView.setText(text);
+                break;
+        }
+        //textView.setText(text);
+    }
+
 }

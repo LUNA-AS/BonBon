@@ -133,15 +133,15 @@
 
             <TextView
                 android:id="@+id/metric1"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="metric1"
+                android:text="Social Skills"
                 android:layout_gravity="center"
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/points1"
+                android:id="@+id/sPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -163,15 +163,15 @@
 
             <TextView
                 android:id="@+id/metric2"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:text="metric2"
+                android:text="Health"
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/points2"
+                android:id="@+id/hPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -193,15 +193,15 @@
 
             <TextView
                 android:id="@+id/metric3"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:text="metric3"
+                android:text="Learning"
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/points3"
+                android:id="@+id/lPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

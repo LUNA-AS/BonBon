@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.bonbon.data_management.Encryption;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +36,7 @@ public class NewPupilProfile extends AppCompatActivity {
         setContentView(R.layout.activity_new_pupil_profile);
 
         final Uri[] image = {null};
+
 
         // Link UI components
         Button save = findViewById(R.id.savePupilButton);
@@ -110,6 +112,8 @@ public class NewPupilProfile extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     public void storeProfilePicture(String id, Uri image) {
@@ -123,4 +127,6 @@ public class NewPupilProfile extends AppCompatActivity {
             }
         });
     }
+
+
 }

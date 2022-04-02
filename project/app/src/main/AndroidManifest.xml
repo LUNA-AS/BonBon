@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BonBon">
         <activity
+            android:name=".ViewObservationActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewPupilProfile"
             android:exported="false" />
         <activity

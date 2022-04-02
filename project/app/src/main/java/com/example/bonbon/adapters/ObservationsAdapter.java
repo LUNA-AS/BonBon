@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
+import com.example.bonbon.ViewObservationActivity;
 import com.example.bonbon.data_models.Observation;
 
 import java.text.SimpleDateFormat;
@@ -42,8 +43,7 @@ public class ObservationsAdapter extends RecyclerView.Adapter<ObservationsAdapte
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO replace the destination to be a viewing activity
-                Intent intent = new Intent(context, NewObservation.class);
+                Intent intent = new Intent(context, ViewObservationActivity.class);
                 intent.putExtra("body", observations.get(position).getBody());
                 intent.putExtra("tags", observations.get(position).getTags());
                 intent.putExtra("timestamp", observations.get(position).getTimeStamp());

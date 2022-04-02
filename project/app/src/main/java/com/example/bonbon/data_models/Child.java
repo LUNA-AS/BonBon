@@ -12,8 +12,32 @@ import java.net.URI;
 
 public class Child {
     private String ID, firstName, lastName, address, dateOfBirth;
-    int avgScore;
+    int avgScore, avgH, avgL, avgS;
     Uri image;
+
+    public int getAvgH() {
+        return avgH;
+    }
+
+    public void setAvgH(int avgH) {
+        this.avgH = avgH;
+    }
+
+    public int getAvgL() {
+        return avgL;
+    }
+
+    public void setAvgL(int avgL) {
+        this.avgL = avgL;
+    }
+
+    public int getAvgS() {
+        return avgS;
+    }
+
+    public void setAvgS(int avgS) {
+        this.avgS = avgS;
+    }
 
     public Uri getImage() {
         return image;
