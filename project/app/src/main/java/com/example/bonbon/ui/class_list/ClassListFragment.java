@@ -20,6 +20,7 @@ import android.widget.EditText;
 import com.example.bonbon.NewPupilProfile;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ClassListAdapter;
+import com.example.bonbon.data_management.Encryption;
 import com.example.bonbon.data_models.Child;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -133,12 +134,12 @@ public class ClassListFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 ArrayList<Child> pupils = new ArrayList<>();
                 for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                    String firstName = ds.getString("firstName");
-                    String lastName = ds.getString("lastName");
-                    String dob = ds.getString("dob");
-                    String phone = ds.getString("phone");
-                    String address = ds.getString("address");
-                    final Uri[] image = {null};
+                    // Get data from database and decrypt
+                    String firstName = Encryption.decryptStringData(ds.getString("firstName"));
+                    String lastName = Encryption.decryptStringData(ds.getString("lastName"));
+                    String dob = Encryption.decryptStringData(ds.getString("dob"));
+                    String phone = Encryption.decryptStringData(ds.getString("phone"));
+                    String address = Encryption.decryptStringData(ds.getString("address"));
                     System.out.println("--------ID: " + ds.getId());
                     storage.getReference().child("profile_pictures").child(ds.getId() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         //storage.getReference().child("profile_picturescIP4QOotcYcd9588SkYi.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -180,11 +181,11 @@ public class ClassListFragment extends Fragment {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         ArrayList<Child> pupils = new ArrayList<>();
                         for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                            String firstName = ds.getString("firstName");
-                            String lastName = ds.getString("lastName");
-                            String dob = ds.getString("dob");
-                            String phone = ds.getString("phone");
-                            String address = ds.getString("address");
+                            String firstName = Encryption.decryptStringData(ds.getString("firstName"));
+                            String lastName = Encryption.decryptStringData(ds.getString("lastName"));
+                            String dob = Encryption.decryptStringData(ds.getString("dob"));
+                            String phone = Encryption.decryptStringData(ds.getString("phone"));
+                            String address = Encryption.decryptStringData(ds.getString("address"));
                             Child c = new Child(firstName, lastName);
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
@@ -192,7 +193,6 @@ public class ClassListFragment extends Fragment {
                             adapter.setChildren(pupils);
                             adapter.notifyDataSetChanged();
                         }
-
                     }
                 });
             }

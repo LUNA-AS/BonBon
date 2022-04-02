@@ -73,7 +73,7 @@ public class Encryption {
         return key;
     }
 
-    public String encryptStringData(String data) {
+    public static String encryptStringData(String data) {
         // TODO add encryption logic
         return data;
     }

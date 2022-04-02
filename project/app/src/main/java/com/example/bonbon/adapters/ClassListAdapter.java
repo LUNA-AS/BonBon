@@ -87,7 +87,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         } else {
             Glide.with(context).load(children.get(position).getImage()).into(holder.profilePic);
         }
-
     }
 
     @Override

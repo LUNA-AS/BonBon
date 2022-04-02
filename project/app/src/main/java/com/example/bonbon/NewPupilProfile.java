@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.bonbon.data_management.Encryption;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -79,11 +80,11 @@ public class NewPupilProfile extends AppCompatActivity {
 
                     // get data from inputs
                     String fName, lName, _dob, _phone, _address;
-                    fName = firstName.getText().toString();
-                    lName = lastName.getText().toString();
-                    _dob = dob.getText().toString();
-                    _phone = phone.getText().toString();
-                    _address = address.getText().toString();
+                    fName = Encryption.encryptStringData(firstName.getText().toString());
+                    lName = Encryption.encryptStringData(lastName.getText().toString());
+                    _dob = Encryption.encryptStringData(dob.getText().toString());
+                    _phone = Encryption.encryptStringData(phone.getText().toString());
+                    _address = Encryption.encryptStringData(address.getText().toString());
 
                     // save info to database
                     FirebaseAuth auth = FirebaseAuth.getInstance();
