@@ -102,11 +102,13 @@ public class NewObservation extends AppCompatActivity {
             public void onClick(View view) {
                 if (!bodyView.getText().toString().equals("")) {
                     if (!tagsView.getText().toString().equals("")) {
-                        String tags = tagsView.getText().toString();
-                        String body = bodyView.getText().toString();
+                        String tags = Encryption.encryptStringData(tagsView.getText().toString());
+                        String body = Encryption.encryptStringData(bodyView.getText().toString());
+                        long timestamp = System.currentTimeMillis();
                         HashMap<String, String> map = new HashMap<>();
                         map.put("tags", tags);
                         map.put("body", body);
+                        map.put("timestamp", String.valueOf(timestamp));
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
                                 .collection("notes").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -145,7 +147,6 @@ public class NewObservation extends AppCompatActivity {
             }
         });
     }
-
 
     public void finishActivity() {
         this.finish();
