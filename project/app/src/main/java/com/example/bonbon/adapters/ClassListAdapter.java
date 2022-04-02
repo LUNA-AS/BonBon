@@ -27,10 +27,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
     ArrayList<Child> children;
     Context context;
 
-    public ArrayList<Child> getChildren() {
-        return children;
-    }
-
     public void setContext(Context context) {
         this.context = context;
     }

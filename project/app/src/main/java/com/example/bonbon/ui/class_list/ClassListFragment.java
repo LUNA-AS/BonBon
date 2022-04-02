@@ -165,7 +165,6 @@ public class ClassListFragment extends Fragment {
                         }
                     });
                 }
-
                 // Set up the list view
                 children = pupils;
 
@@ -189,6 +188,7 @@ public class ClassListFragment extends Fragment {
                             Child c = new Child(firstName, lastName);
                             c.setAddress(address);
                             c.setDateOfBirth(dob);
+                            c.setID(ds.getId());
                             pupils.add(c);
                             adapter.setChildren(pupils);
                             adapter.notifyDataSetChanged();
