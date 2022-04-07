@@ -99,7 +99,7 @@ public class PupilProfileActivity extends AppCompatActivity {
                 // Find notes with related tags
                 ArrayList<Observation> observations = new ArrayList<>();
                 for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                    if (ds.getString("tags").contains(firstNameString + " " + lastNameString)) {
+                    if ((Encryption.decryptStringData(ds.getString("tags"))).contains(firstNameString + " " + lastNameString)) {
                         long l = Long.parseLong(ds.getString("timestamp").trim());
                         Observation o = new Observation(Encryption.decryptStringData(ds.getString("tags")), Encryption.decryptStringData(ds.getString("body")),
                                 l, ds.getString("imageRef"));
