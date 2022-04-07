@@ -1,6 +1,7 @@
 package com.example.bonbon.ui.profiles;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -91,6 +93,7 @@ public class PupilProfileActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
                 .collection("notes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 // Find notes with related tags
@@ -139,6 +142,7 @@ public class PupilProfileActivity extends AppCompatActivity {
                 super.onAuthenticationSucceeded(result);
                 Intent intent = new Intent(PupilProfileActivity.this, ViewContacts.class);
                 intent.putExtra("id", id);
+                System.out.println("starting activity with id: " + id);
                 startActivity(intent);
             }
 
@@ -157,7 +161,7 @@ public class PupilProfileActivity extends AppCompatActivity {
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Biometric Authentication")
                 .setSubtitle("Scan your fingerprint to proceed")
-                .setNegativeButtonText("")
+                .setNegativeButtonText("Return")
                 .build();
 
         viewContacts.setOnClickListener(new View.OnClickListener() {
@@ -165,12 +169,9 @@ public class PupilProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Authenticate
                 biometricPrompt.authenticate(promptInfo);
-
             }
         });
-
     }
-
     private void setStarIndicator(int score, TextView textView) {
         String text = "★★☆☆☆";
         switch (score) {
@@ -200,5 +201,4 @@ public class PupilProfileActivity extends AppCompatActivity {
                 break;
         }
     }
-
 }

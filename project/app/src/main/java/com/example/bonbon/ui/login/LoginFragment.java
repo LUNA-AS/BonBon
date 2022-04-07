@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +18,12 @@ import com.example.bonbon.MainActivity;
 import com.example.bonbon.R;
 import com.example.bonbon.data_management.Encryption;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
@@ -64,16 +65,27 @@ public class LoginFragment extends Fragment {
                 // Sign in with encrypted password
                 if (!email.equals("")) {
                     if (!password.equals("")) {
-                        mAuth.signInWithEmailAndPassword(email, Encryption.encryptPassword(password))
+                        mAuth.signInWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             if (mAuth.getCurrentUser().isEmailVerified()) {
-                                                System.out.println("encryption test-------------------");
-                                                Encryption.encryptUsername(mAuth.getCurrentUser().getUid());
-                                                startActivity(new Intent(getContext(), MainActivity.class));
-                                                getActivity().finish();
+                                                Toast.makeText(getContext(), "Login successful. Fetching data.", Toast.LENGTH_SHORT).show();
+                                                FirebaseFirestore.getInstance().collection("keys")
+                                                        .document(Encryption.oneWayEncrypt(mAuth.getUid()))
+                                                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        // Get encryption key
+                                                        String key = documentSnapshot.getString("key");
+                                                        Encryption.setKey(key);
+                                                        System.out.println("KEY: " + key);
+                                                        startActivity(new Intent(getContext(), MainActivity.class));
+                                                        getActivity().finish();
+                                                    }
+                                                });
+
                                             } else {
                                                 Toast.makeText(getContext(), "Please verify your email address", Toast.LENGTH_SHORT).show();
                                             }

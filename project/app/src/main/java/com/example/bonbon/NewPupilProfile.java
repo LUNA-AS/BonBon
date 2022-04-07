@@ -3,19 +3,20 @@ package com.example.bonbon;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +29,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.net.URI;
 import java.util.HashMap;
 
 public class NewPupilProfile extends AppCompatActivity {
@@ -39,11 +39,13 @@ public class NewPupilProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_pupil_profile);
 
-        String id = (String) getIntent().getExtras().get("id");
-
-
         final Uri[] image = {null};
-
+        String id = null;
+        try {
+            id = (String) getIntent().getExtras().get("id");
+        } catch (Exception e) {
+            System.out.println("No ID passed in. activity in creation mode.");
+        }
 
         // Link UI components
         Button save = findViewById(R.id.savePupilButton);
@@ -54,6 +56,8 @@ public class NewPupilProfile extends AppCompatActivity {
         dob = findViewById(R.id.pupilDOB);
         phone = findViewById(R.id.pupilPhone);
         address = findViewById(R.id.pupilHomeAddress);
+        ProgressBar progressBar = findViewById(R.id.newPupilProgressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         if (id != null) {
             firstName.setText((String) getIntent().getExtras().get("firstName"));
@@ -85,10 +89,13 @@ public class NewPupilProfile extends AppCompatActivity {
             }
         });
 
+        String finalId = id;
         save.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
 
+                progressBar.setVisibility(View.VISIBLE);
                 // Get data from input
                 if (firstName.getText().toString().equals("")) {
                     firstName.setError("This field cannot be empty");
@@ -110,7 +117,7 @@ public class NewPupilProfile extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     // Create a map with data
-                    HashMap<String, String> map = new HashMap<>();
+                    HashMap<String, Object> map = new HashMap<>();
                     if (!fName.equals("")) {
                         map.put("firstName", Encryption.encryptStringData(fName));
                     }
@@ -127,24 +134,29 @@ public class NewPupilProfile extends AppCompatActivity {
                         map.put("address", Encryption.encryptStringData(_address));
                     }
 
-                    if (id == null) {
+                    if (finalId == null) {
                         db.collection("teachers").document(UID).collection("class")
                                 .add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                String _id = documentReference.getId();
                                 if (image[0] != null) {
+                                    String _id = documentReference.getId();
                                     storeProfilePicture(_id, image[0]);
                                 }
+                                progressBar.setVisibility(View.GONE);
+                                finish();
                             }
                         });
                     } else {
                         db.collection("teachers").document(UID).collection("class")
-                                .document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                .document(finalId).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(NewPupilProfile.this, "Updated data", Toast.LENGTH_SHORT).show();
-                                storeProfilePicture(id, image[0]);
+                                if (image[0] != null) {
+                                    storeProfilePicture(finalId, image[0]);
+                                }
+                                progressBar.setVisibility(View.GONE);
                                 finish();
                             }
                         });
@@ -161,7 +173,6 @@ public class NewPupilProfile extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 System.out.println("uploaded image");
-                finish();
             }
         });
     }

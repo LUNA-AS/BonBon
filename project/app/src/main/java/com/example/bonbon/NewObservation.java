@@ -1,6 +1,7 @@
 package com.example.bonbon;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -80,6 +82,7 @@ public class NewObservation extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
                 .collection("class").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 ArrayList<String> tags = new ArrayList<>();
@@ -97,6 +100,7 @@ public class NewObservation extends AppCompatActivity {
         // Save observation
         Button save = findViewById(R.id.saveObservationButton);
         save.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 if (!bodyView.getText().toString().equals("")) {
@@ -114,7 +118,7 @@ public class NewObservation extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 String id = documentReference.getId();
-                                if (selectedImage != null) {
+                                if (selectedImage[0] != null) {
                                     String imageRef = "images/" + id + ".jpg";
                                     // save image
                                     FirebaseStorage storage = FirebaseStorage.getInstance();

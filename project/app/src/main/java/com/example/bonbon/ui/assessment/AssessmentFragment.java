@@ -1,9 +1,11 @@
 package com.example.bonbon.ui.assessment;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -68,6 +70,7 @@ public class AssessmentFragment extends Fragment {
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     storage.getReference().child("profile_pictures").child(id + ".jpg")
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onSuccess(Uri uri) {
                             Child c = new Child(Encryption.decryptStringData(ds.getString("firstName")),

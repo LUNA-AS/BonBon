@@ -19,11 +19,8 @@ import com.example.bonbon.data_models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-//import com.google.crypto.tink.KeyTemplates;
-//import com.google.crypto.tink.KeysetHandle;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -102,10 +99,10 @@ public class RegistrationFragment extends Fragment {
                             } else {
 // =========================================== VALID INPUT =========================================
                                 // Initialize user instance with verified data
-                                user = new User(firstName, lastName, email, Encryption.encryptPassword(password));
+                                user = new User(firstName, lastName, email, Encryption.oneWayEncrypt(password));
                                 // Initialize auth
                                 mAuth = FirebaseAuth.getInstance();
-                                mAuth.createUserWithEmailAndPassword(email, Encryption.encryptPassword(password))
+                                mAuth.createUserWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -182,7 +179,7 @@ public class RegistrationFragment extends Fragment {
 
     private void generateUserKey(String uid) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String id = Encryption.encryptUsername(uid);
+        String id = Encryption.oneWayEncrypt(uid);
         // generate encryption key for user
         String key = Encryption.generateEncryptionKey();
         HashMap<String, String> map = new HashMap<>();

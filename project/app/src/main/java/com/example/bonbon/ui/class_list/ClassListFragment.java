@@ -2,10 +2,12 @@ package com.example.bonbon.ui.class_list;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +81,14 @@ public class ClassListFragment extends Fragment {
         // Populate class list
         getPupils(classListRecycler, adapter);
 
+        FirebaseFirestore.getInstance().collection("teachers")
+                .document(FirebaseAuth.getInstance().getUid()).collection("class")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        getPupils(classListRecycler, adapter);
+                    }
+                });
 
         // Set up the search bar
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -130,6 +140,7 @@ public class ClassListFragment extends Fragment {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         db.collection("teachers").document(teacherID).collection("class")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 ArrayList<Child> pupils = new ArrayList<>();
@@ -140,7 +151,6 @@ public class ClassListFragment extends Fragment {
                     String dob = Encryption.decryptStringData(ds.getString("dob"));
                     String phone = Encryption.decryptStringData(ds.getString("phone"));
                     String address = Encryption.decryptStringData(ds.getString("address"));
-                    System.out.println("--------ID: " + ds.getId());
                     storage.getReference().child("profile_pictures").child(ds.getId() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         //storage.getReference().child("profile_picturescIP4QOotcYcd9588SkYi.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
@@ -178,6 +188,7 @@ public class ClassListFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 db.collection("teachers").document(teacherID).collection("class")
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         ArrayList<Child> pupils = new ArrayList<>();

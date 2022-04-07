@@ -4,6 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_200"
     tools:context=".ui.profiles.ViewContacts">
+
+    <RelativeLayout
+        android:id="@+id/viewContactsRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/viewContactsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/viewContactsBackButton"
+            android:text="Contact Details"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="179dp"
+            tools:layout_editor_absoluteY="41dp" />
+
+        <ImageButton
+            android:id="@+id/viewContactsBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+            app:tint="@color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/phoneTextView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@drawable/round_corners"
+        android:padding="5dp"
+        android:text="No data available"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewContactsRelativeLayout"
+        app:layout_constraintVertical_bias="0.304" />
+
+    <ImageButton
+        android:id="@+id/copyPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/phoneTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/phoneTextView"
+        app:srcCompat="@drawable/ic_baseline_content_copy_24" />
+
+    <TextView
+        android:id="@+id/addressTextView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@drawable/round_corners"
+        android:padding="5dp"
+        android:text="No data available"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
+
+    <ImageButton
+        android:id="@+id/copyAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/addressTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addressTextView"
+        app:srcCompat="@drawable/ic_baseline_content_copy_24" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Phone: "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/phoneTextView"
+        app:layout_constraintEnd_toStartOf="@+id/phoneTextView"
+        app:layout_constraintTop_toTopOf="@+id/phoneTextView" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Address"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/addressTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addressTextView"
+        app:layout_constraintTop_toTopOf="@+id/addressTextView" />
+
+    <ProgressBar
+        android:id="@+id/viewContactProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/phoneTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewContactsRelativeLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
