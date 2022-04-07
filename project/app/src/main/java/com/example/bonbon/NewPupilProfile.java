@@ -119,19 +119,19 @@ public class NewPupilProfile extends AppCompatActivity {
                     // Create a map with data
                     HashMap<String, Object> map = new HashMap<>();
                     if (!fName.equals("")) {
-                        map.put("firstName", Encryption.encryptStringData(fName));
+                        map.put("firstName", fName);
                     }
                     if (!lName.equals("")) {
-                        map.put("lastName", Encryption.encryptStringData(lName));
+                        map.put("lastName", lName);
                     }
                     if (!_dob.equals("")) {
-                        map.put("dob", Encryption.encryptStringData(_dob));
+                        map.put("dob", _dob);
                     }
                     if (!_phone.equals("")) {
-                        map.put("phone", Encryption.encryptStringData(_phone));
+                        map.put("phone", _phone);
                     }
                     if (!_address.equals("")) {
-                        map.put("address", Encryption.encryptStringData(_address));
+                        map.put("address", _address);
                     }
 
                     if (finalId == null) {
