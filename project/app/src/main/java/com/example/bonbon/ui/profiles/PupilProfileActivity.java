@@ -1,6 +1,9 @@
 package com.example.bonbon.ui.profiles;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,13 +14,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bonbon.NewObservation;
+import com.example.bonbon.NewPupilProfile;
 import com.example.bonbon.R;
 import com.example.bonbon.adapters.ObservationsAdapter;
 import com.example.bonbon.data_management.Encryption;
 import com.example.bonbon.data_models.Observation;
+import com.example.bonbon.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,8 +31,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 public class PupilProfileActivity extends AppCompatActivity {
+
+    Executor executor;
+    BiometricPrompt biometricPrompt;
+    BiometricPrompt.PromptInfo promptInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +47,8 @@ public class PupilProfileActivity extends AppCompatActivity {
         // Get details from intent
         String firstNameString = getIntent().getExtras().getString("firstName");
         String lastNameString = getIntent().getExtras().getString("lastName");
+        String id = getIntent().getExtras().getString("id");
+        String dob = getIntent().getExtras().getString("dob");
         Uri image = (Uri) getIntent().getExtras().get("image");
 
 
@@ -98,9 +111,66 @@ public class PupilProfileActivity extends AppCompatActivity {
 
             }
         });
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PupilProfileActivity.this, NewPupilProfile.class);
+                intent.putExtra("firstName", firstNameString);
+                intent.putExtra("lastName", lastNameString);
+                intent.putExtra("id", id);
+                intent.putExtra("image", image);
+                startActivity(intent);
+            }
+        });
 
+        // Show contacts:
+
+        final int[] authFailCount = {0};
+        executor = ContextCompat.getMainExecutor(PupilProfileActivity.this);
+        biometricPrompt = new androidx.biometric.BiometricPrompt(PupilProfileActivity.this, executor, new androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(PupilProfileActivity.this, "Authentication Error: " + errString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Intent intent = new Intent(PupilProfileActivity.this, ViewContacts.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                authFailCount[0]++;
+                if(authFailCount[0]>2){
+                    FirebaseAuth.getInstance().signOut();
+                    // TODO log activity
+                    finish();
+                    startActivity(new Intent(PupilProfileActivity.this, LoginActivity.class));
+                }
+            }
+        });
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric Authentication")
+                .setSubtitle("Scan your fingerprint to proceed")
+                .setNegativeButtonText("")
+                .build();
+
+        viewContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Authenticate
+                biometricPrompt.authenticate(promptInfo);
+
+            }
+        });
 
     }
+
     private void setStarIndicator(int score, TextView textView) {
         String text = "★★☆☆☆";
         switch (score) {
@@ -129,7 +199,6 @@ public class PupilProfileActivity extends AppCompatActivity {
                 textView.setText(text);
                 break;
         }
-        //textView.setText(text);
     }
 
 }

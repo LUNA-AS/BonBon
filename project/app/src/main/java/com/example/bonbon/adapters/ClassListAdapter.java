@@ -70,6 +70,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
                 intent.putExtra("firstName", children.get(position).getFirstName());
                 intent.putExtra("lastName", children.get(position).getLastName());
                 intent.putExtra("dateOfBirth", children.get(position).getFirstName());
+                intent.putExtra("id", children.get(position).getID());
                 intent.putExtra("address", children.get(position).getAddress());
                 intent.putExtra("image", children.get(position).getImage());
                 intent.putExtra("avgScore", children.get(position).getAvgScore());

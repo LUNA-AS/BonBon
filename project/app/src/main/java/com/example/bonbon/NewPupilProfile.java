@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.bonbon.data_management.Encryption;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,10 +33,14 @@ import java.util.HashMap;
 
 public class NewPupilProfile extends AppCompatActivity {
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_pupil_profile);
+
+        String id = (String) getIntent().getExtras().get("id");
+
 
         final Uri[] image = {null};
 
@@ -47,6 +54,15 @@ public class NewPupilProfile extends AppCompatActivity {
         dob = findViewById(R.id.pupilDOB);
         phone = findViewById(R.id.pupilPhone);
         address = findViewById(R.id.pupilHomeAddress);
+
+        if (id != null) {
+            firstName.setText((String) getIntent().getExtras().get("firstName"));
+            lastName.setText((String) getIntent().getExtras().get("lastName"));
+            dob.setText((String) getIntent().getExtras().get("dob"));
+            phone.setHint("Update contact number");
+            address.setHint("Update contact address");
+            Glide.with(this).load((Uri) getIntent().getExtras().get("image"));
+        }
 
         // get profile image
         // set up activity launcher
@@ -95,25 +111,47 @@ public class NewPupilProfile extends AppCompatActivity {
 
                     // Create a map with data
                     HashMap<String, String> map = new HashMap<>();
-                    map.put("firstName", fName);
-                    map.put("lastName", lName);
-                    map.put("dob", _dob);
-                    map.put("phone", _phone);
-                    map.put("address", _address);
+                    if (!fName.equals("")) {
+                        map.put("firstName", Encryption.encryptStringData(fName));
+                    }
+                    if (!lName.equals("")) {
+                        map.put("lastName", Encryption.encryptStringData(lName));
+                    }
+                    if (!_dob.equals("")) {
+                        map.put("dob", Encryption.encryptStringData(_dob));
+                    }
+                    if (!_phone.equals("")) {
+                        map.put("phone", Encryption.encryptStringData(_phone));
+                    }
+                    if (!_address.equals("")) {
+                        map.put("address", Encryption.encryptStringData(_address));
+                    }
 
-                    db.collection("teachers").document(UID).collection("class")
-                            .add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            String id = documentReference.getId();
-                            storeProfilePicture(id, image[0]);
-                        }
-                    });
+                    if (id == null) {
+                        db.collection("teachers").document(UID).collection("class")
+                                .add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                String _id = documentReference.getId();
+                                if (image[0] != null) {
+                                    storeProfilePicture(_id, image[0]);
+                                }
+                            }
+                        });
+                    } else {
+                        db.collection("teachers").document(UID).collection("class")
+                                .document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(NewPupilProfile.this, "Updated data", Toast.LENGTH_SHORT).show();
+                                storeProfilePicture(id, image[0]);
+                                finish();
+                            }
+                        });
+                    }
                 }
             }
         });
-
-
     }
 
     public void storeProfilePicture(String id, Uri image) {
