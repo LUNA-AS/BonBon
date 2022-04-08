@@ -36,12 +36,17 @@ public class ViewObservationActivity extends AppCompatActivity {
         ImageView imageAttachment = findViewById(R.id.viewObservationImageAttachment);
         String imageRef = (String) getIntent().getExtras().get("image");
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        storage.getReference().child(imageRef).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(ViewObservationActivity.this).load(uri).into(imageAttachment);
-            }
-        });
+        try {
+            storage.getReference().child(imageRef).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(ViewObservationActivity.this).load(uri).into(imageAttachment);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            imageAttachment.setVisibility(View.INVISIBLE);
+        }
 
         // Load text
         SimpleDateFormat sdf = new SimpleDateFormat("d/MM/yy hh:mm");

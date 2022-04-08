@@ -10,16 +10,25 @@
         android:layout_height="wrap_content"
         tools:context=".ui.profiles.PupilProfileActivity">
 
-        <ImageView
-            android:id="@+id/pupilProfilePicture"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_baseline_person_24" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/pupilProfilePicture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_person_24" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -28,7 +37,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pupilProfilePicture">
+            app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
             <TextView
                 android:id="@+id/pupilProfileFirstName"
@@ -135,29 +144,29 @@
                 android:id="@+id/metric1"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Social Skills"
-                android:layout_gravity="center"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/sPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_weight="1"
-                android:textSize="18sp"
-                android:text="★★★★★" />
+                android:text="★★★★★"
+                android:textAlignment="center"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
             tools:layout_editor_absoluteX="0dp">
 
@@ -165,8 +174,8 @@
                 android:id="@+id/metric2"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:text="Health"
                 android:textAlignment="center" />
 
@@ -175,19 +184,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="★★☆☆☆"
                 android:textAlignment="center"
-                android:textSize="18sp"
-                android:text="★★☆☆☆" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
             tools:layout_editor_absoluteX="0dp">
 
@@ -195,8 +204,8 @@
                 android:id="@+id/metric3"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:text="Learning"
                 android:textAlignment="center" />
 
@@ -205,9 +214,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="★★★★☆"
                 android:textAlignment="center"
-                android:textSize="18sp"
-                android:text="★★★★☆" />
+                android:textSize="18sp" />
         </LinearLayout>
 
 
@@ -215,9 +224,9 @@
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="Observations"
             android:textAlignment="center"
-            android:layout_margin="20dp"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -227,8 +236,8 @@
             android:id="@+id/pupilObservationsRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:layout_margin="20dp"
+            android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />

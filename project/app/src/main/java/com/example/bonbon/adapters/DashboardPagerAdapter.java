@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.example.bonbon.R;
 import com.example.bonbon.data_models.Child;
 
@@ -43,8 +45,12 @@ public class DashboardPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.require_attention_item, container, false);
         TextView name = view.findViewById(R.id.pagerPupilName);
         TextView description = view.findViewById(R.id.pagerDescription);
-        name.setText(children.get(position).getFirstName()+" "+children.get(position).getLastName());
+        name.setText(children.get(position).getFirstName() + " " + children.get(position).getLastName());
         description.setText("Score: " + children.get(position).getAvgScore());
+        ImageView profilePic = view.findViewById(R.id.dashboardProfilePic);
+        if (children.get(position).getImage() != null) {
+            Glide.with(context).load(children.get(position).getImage()).into(profilePic);
+        }
         try {
             container.addView(view, position);
         } catch (Exception e) {
@@ -52,5 +58,10 @@ public class DashboardPagerAdapter extends PagerAdapter {
         }
 
         return view;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
     }
 }

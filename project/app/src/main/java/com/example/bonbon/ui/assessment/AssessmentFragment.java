@@ -84,6 +84,7 @@ public class AssessmentFragment extends Fragment {
                             adapter.notifyDataSetChanged();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Child c = new Child(Encryption.decryptStringData(ds.getString("firstName")),

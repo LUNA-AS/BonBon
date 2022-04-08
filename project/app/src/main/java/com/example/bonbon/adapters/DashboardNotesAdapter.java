@@ -33,6 +33,10 @@ public class DashboardNotesAdapter extends RecyclerView.Adapter<DashboardNotesAd
         sdf = new SimpleDateFormat("d/MMM/yy hh:mm");
     }
 
+    public void setObservations(ArrayList<Observation> observations) {
+        this.observations = observations;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
