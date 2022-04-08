@@ -10,7 +10,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.net.URI;
 
-public class Child {
+public class Child implements Comparable<Child>{
     private String ID, firstName, lastName, address, dateOfBirth;
     int avgScore, avgH, avgL, avgS;
     Uri image;
@@ -100,4 +100,8 @@ public class Child {
         this.avgScore = avgScore;
     }
 
+    @Override
+    public int compareTo(Child child) {
+        return Integer.compare(getAvgScore(), child.getAvgScore());
+    }
 }

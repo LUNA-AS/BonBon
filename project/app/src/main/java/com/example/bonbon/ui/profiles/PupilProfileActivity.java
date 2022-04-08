@@ -27,6 +27,7 @@ import com.example.bonbon.data_management.Encryption;
 import com.example.bonbon.data_models.Observation;
 import com.example.bonbon.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -150,7 +151,7 @@ public class PupilProfileActivity extends AppCompatActivity {
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
                 authFailCount[0]++;
-                if(authFailCount[0]>2){
+                if (authFailCount[0] > 2) {
                     FirebaseAuth.getInstance().signOut();
                     // TODO log activity
                     finish();
@@ -171,7 +172,25 @@ public class PupilProfileActivity extends AppCompatActivity {
                 biometricPrompt.authenticate(promptInfo);
             }
         });
+
+        ImageButton delete = findViewById(R.id.deleteProfile);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Task<Void> db = FirebaseFirestore.getInstance().collection("teachers")
+                        .document(FirebaseAuth.getInstance().getUid())
+                        .collection("class")
+                        .document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(PupilProfileActivity.this, "Deleted Successfully!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+            }
+        });
     }
+
     private void setStarIndicator(int score, TextView textView) {
         String text = "★★☆☆☆";
         switch (score) {

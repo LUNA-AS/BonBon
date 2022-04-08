@@ -12,8 +12,12 @@ import android.widget.Toast;
 
 import com.example.bonbon.MainActivity;
 import com.example.bonbon.R;
+import com.example.bonbon.data_management.Encryption;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.Executor;
 
@@ -51,8 +55,19 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    FirebaseFirestore.getInstance().collection("keys")
+                            .document(Encryption.oneWayEncrypt(mAuth.getUid()))
+                            .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            // Get encryption key
+                            String key = documentSnapshot.getString("key");
+                            Encryption.setKey(key);
+                            System.out.println("KEY: " + key);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    });
                 }
 
                 @Override

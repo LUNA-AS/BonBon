@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -11,10 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.bonbon.NewObservation;
 import com.example.bonbon.R;
@@ -34,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DashboardFragment extends Fragment {
 
@@ -110,6 +110,7 @@ public class DashboardFragment extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        children.clear();
                         for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
                             Task<Uri> storage = FirebaseStorage.getInstance()
                                     .getReference().child("profile_pictures/" + ds.getId() + ".jpg")
@@ -127,9 +128,11 @@ public class DashboardFragment extends Fragment {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
+                                            e.printStackTrace();
                                             Child c = new Child(Encryption.decryptStringData(ds.getString("firstName")),
                                                     Encryption.decryptStringData(ds.getString("lastName")));
                                             c.setID(ds.getId());
+                                            c.setImage(null);
                                             c.setAddress(Encryption.decryptStringData(ds.getString("address")));
                                             c.setDateOfBirth(Encryption.decryptStringData(ds.getString("dob")));
                                             setAvgScores(c, pagerAdapter, children);
@@ -177,10 +180,12 @@ public class DashboardFragment extends Fragment {
                 c.setAvgL(avgL);
                 c.setAvgH(avgH);
                 children.add(c);
+                Collections.sort(children);
                 adapter.setChildren(children);
                 adapter.notifyDataSetChanged();
             }
         });
 
     }
+
 }
