@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment"
-    android:background="#DBC7F3">
+    android:background="@drawable/background_gradient">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,7 +16,8 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_note_add_24" />
+        app:srcCompat="@drawable/ic_baseline_note_add_24"
+        app:tint="@color/white"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/dashboardPager"

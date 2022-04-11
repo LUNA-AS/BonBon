@@ -9,7 +9,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D3C5F3"
+    android:background="@drawable/background_gradient"
     android:padding="5dp">
 
     <EditText
@@ -42,7 +42,8 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_person_add_24" />
+        app:srcCompat="@drawable/ic_baseline_person_add_24"
+        app:tint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -112,6 +112,7 @@ public class NewObservation extends AppCompatActivity {
                         map.put("tags", tags);
                         map.put("body", body);
                         map.put("timestamp", String.valueOf(timestamp));
+
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
                                 .collection("notes").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

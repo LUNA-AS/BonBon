@@ -54,6 +54,8 @@ public class AssessmentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_assessment, container, false);
 
         ViewPager pager = view.findViewById(R.id.assessmentViewPager);
+        pager.setPageMargin(-100);
+        // TODO adjust the margin
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("teachers").document(FirebaseAuth.getInstance().getUid())
