@@ -9,27 +9,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D3C5F3">
+        android:background="@drawable/background_gradient">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="@+id/loginAppLogo"
+            app:layout_constraintHeight_percent=".2"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="@+id/loginAppLogo"
+            app:srcCompat="@drawable/candy_icon"
+            app:tint="#B0FFFFFF" />
 
         <ImageView
             android:id="@+id/loginAppLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".2"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            app:tint="@color/purple_200" />
+            app:srcCompat="@drawable/candy_icon" />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_corners"
+            android:backgroundTint="@color/purple_200"
+            android:padding="5dp"
             android:text="Login"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="25dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginAppLogo" />
@@ -41,10 +57,10 @@
             android:layout_margin="20dp"
             android:layout_marginTop="140dp"
             android:background="@drawable/round_corners"
-            android:padding="10dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,11 +71,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:ems="10"
             android:background="@drawable/round_corners"
-            android:padding="10dp"
+            android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginEmailInput" />
@@ -79,10 +95,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="21dp"
-            android:text="@string/register_instead"
             android:background="@drawable/round_corners"
-            android:padding="5dp"
             android:backgroundTint="#C1E5E3E8"
+            android:padding="5dp"
+            android:text="@string/register_instead"
             android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@+id/resetPasswordLoginText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,8 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/round_corners"
-            android:padding="5dp"
             android:backgroundTint="#C1E5E3E8"
+            android:padding="5dp"
             android:text="@string/reset_password"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

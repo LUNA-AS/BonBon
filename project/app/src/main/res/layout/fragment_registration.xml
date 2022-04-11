@@ -5,31 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.login.RegistrationFragment"
-    android:background="#D3C5F3">
+    android:background="@drawable/background_gradient">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="@+id/registerAppLogo"
+            app:layout_constraintHeight_percent=".2"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="@+id/registerAppLogo"
+            app:srcCompat="@drawable/candy_icon"
+            app:tint="#B0FFFFFF" />
+        <ImageView
             android:id="@+id/registerAppLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".2"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            app:tint="@color/purple_200" />
+            app:srcCompat="@drawable/candy_icon" />
 
         <TextView
             android:id="@+id/registerTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Registration"
             android:textSize="25dp"
+            android:textAlignment="center"
+            android:background="@drawable/round_corners"
+            android:backgroundTint="@color/purple_200"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerAppLogo" />
@@ -65,10 +79,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/sign_in_instead"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/round_corners"
+            android:backgroundTint="#C1A86EFF"
             android:padding="5dp"
-            android:backgroundTint="#C1E5E3E8"
+            android:text="@string/sign_in_instead"
+            android:textColor="@color/white"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
