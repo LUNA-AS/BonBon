@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Observation {
     String tags;
-    String body;
+    String body, id;
     long timeStamp;
     String image;
 
@@ -13,6 +13,14 @@ public class Observation {
         this.body = body;
         this.timeStamp = timeStamp;
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTags() {

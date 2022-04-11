@@ -57,6 +57,7 @@ public class DashboardNotesAdapter extends RecyclerView.Adapter<DashboardNotesAd
                 intent.putExtra("tags", observations.get(position).getTags());
                 intent.putExtra("image", observations.get(position).getImage());
                 intent.putExtra("timestamp", observations.get(position).getTimeStamp());
+                intent.putExtra("id", observations.get(position).getId());
                 context.startActivity(intent);
             }
         });

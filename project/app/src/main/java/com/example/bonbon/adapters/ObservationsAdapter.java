@@ -48,6 +48,7 @@ public class ObservationsAdapter extends RecyclerView.Adapter<ObservationsAdapte
                 intent.putExtra("tags", observations.get(position).getTags());
                 intent.putExtra("timestamp", observations.get(position).getTimeStamp());
                 intent.putExtra("image", observations.get(position).getImage());
+                intent.putExtra("id", observations.get(position).getId());
                 context.startActivity(intent);
             }
         });

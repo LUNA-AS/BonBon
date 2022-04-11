@@ -104,6 +104,7 @@ public class PupilProfileActivity extends AppCompatActivity {
                         long l = Long.parseLong(ds.getString("timestamp").trim());
                         Observation o = new Observation(Encryption.decryptStringData(ds.getString("tags")), Encryption.decryptStringData(ds.getString("body")),
                                 l, ds.getString("imageRef"));
+                        o.setId(ds.getId());
                         observations.add(o);
                     }
                 }

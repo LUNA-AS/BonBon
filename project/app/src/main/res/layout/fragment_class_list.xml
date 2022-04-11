@@ -28,6 +28,7 @@
         android:id="@+id/classListRecycler"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:overScrollMode="ifContentScrolls"
         android:padding="5dp"
         android:layout_height="650dp"
         app:layout_constraintEnd_toEndOf="parent"

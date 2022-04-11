@@ -97,6 +97,7 @@ public class DashboardFragment extends Fragment {
                             Observation o = new Observation(Encryption.decryptStringData(ds.getString("tags")),
                                     Encryption.decryptStringData(ds.getString("body")),
                                     l, ds.getString("imageRef"));
+                            o.setId(ds.getId());
                             observations.add(o);
                         }
                         notesAdapter.setObservations(observations);
