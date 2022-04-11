@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -85,7 +88,8 @@ public class DashboardFragment extends Fragment {
         recyclerView.setAdapter(notesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Task<QuerySnapshot> db = FirebaseFirestore.getInstance().collection("teachers")
+        // Load notes
+        FirebaseFirestore.getInstance().collection("teachers")
                 .document(FirebaseAuth.getInstance().getUid())
                 .collection("notes")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -105,14 +109,15 @@ public class DashboardFragment extends Fragment {
                     }
                 });
 
-        Task<QuerySnapshot> db1 = FirebaseFirestore.getInstance().collection("teachers")
+        // Load profiles
+        FirebaseFirestore.getInstance().collection("teachers")
                 .document(FirebaseAuth.getInstance().getUid()).collection("class")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         children.clear();
-                        for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
+                        for (DocumentSnapshot ds : queryDocumentSnapshots) {
                             Task<Uri> storage = FirebaseStorage.getInstance()
                                     .getReference().child("profile_pictures/" + ds.getId() + ".jpg")
                                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -142,6 +147,26 @@ public class DashboardFragment extends Fragment {
                         }
                     }
                 });
+
+        // update notes
+        FirebaseFirestore.getInstance().collection("teachers").document(FirebaseAuth.getInstance().getUid())
+                .collection("notes").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                observations.clear();
+                for (DocumentSnapshot ds : value.getDocuments()) {
+                    long l = Long.parseLong(ds.getString("timestamp").trim());
+                    Observation o = new Observation(Encryption.decryptStringData(ds.getString("tags")),
+                            Encryption.decryptStringData(ds.getString("body")),
+                            l, ds.getString("imageRef"));
+                    o.setId(ds.getId());
+                    observations.add(o);
+                }
+                notesAdapter.setObservations(observations);
+                notesAdapter.notifyDataSetChanged();
+            }
+        });
 
         return view;
     }

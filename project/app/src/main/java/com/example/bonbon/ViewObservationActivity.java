@@ -84,7 +84,7 @@ public class ViewObservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewObservationActivity.this);
-                builder.setMessage("Are you sure you want to delete this task? ")
+                builder.setMessage("Deleting this observation will result in permanently removing it from the database. Do you want to proceed?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override

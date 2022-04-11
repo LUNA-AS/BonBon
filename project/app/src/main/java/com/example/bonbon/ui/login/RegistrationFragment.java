@@ -1,8 +1,10 @@
 package com.example.bonbon.ui.login;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -108,6 +110,7 @@ public class RegistrationFragment extends Fragment {
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
                                                     mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @RequiresApi(api = Build.VERSION_CODES.O)
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
@@ -158,6 +161,7 @@ public class RegistrationFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void addUserToDatabase(User user) {
         // get database reference
         FirebaseFirestore db = FirebaseFirestore.getInstance();
