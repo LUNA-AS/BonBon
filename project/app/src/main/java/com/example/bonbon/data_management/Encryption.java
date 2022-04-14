@@ -17,10 +17,6 @@ import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-// TODO resolve tink library issues
-//import com.google.crypto.tink.KeyTemplates;
-//import com.google.crypto.tink.KeysetHandle;
-//import com.google.crypto.tink.aead.AeadConfig;
 
 public class Encryption {
     private static String secret;
@@ -113,20 +109,7 @@ public class Encryption {
         // To generate 128 bit string 16 characters are required.
         String allChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         String key = "";
-        /*
-        try {
-            byte[] bytes = new byte[16];
-            SecureRandom rnd = new SecureRandom();
-            rnd.nextBytes(bytes);
-            key = new String(bytes);
 
-        } catch (Exception e) {
-            // TODO add logging
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return key;
-        }
-         */
         // Create a random number generator and seed it
         Random rnd = new Random(System.currentTimeMillis());
         for (int i = 0; i < 16; i++) {

@@ -29,6 +29,7 @@ import com.example.bonbon.R;
 import com.example.bonbon.ViewObservationActivity;
 import com.example.bonbon.adapters.ObservationsAdapter;
 import com.example.bonbon.data_management.Encryption;
+import com.example.bonbon.data_management.Logger;
 import com.example.bonbon.data_models.Observation;
 import com.example.bonbon.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -159,8 +160,8 @@ public class PupilProfileActivity extends AppCompatActivity {
                 super.onAuthenticationFailed();
                 authFailCount[0]++;
                 if (authFailCount[0] > 2) {
+                    Logger.log("Failed attempt to view child details for: " + firstNameString[0]);
                     FirebaseAuth.getInstance().signOut();
-                    // TODO log activity
                     finish();
                     startActivity(new Intent(PupilProfileActivity.this, LoginActivity.class));
                 }
@@ -219,6 +220,7 @@ public class PupilProfileActivity extends AppCompatActivity {
                                         super.onAuthenticationFailed();
                                         counter[0]++;
                                         if (counter[0] > 2) {
+                                            Logger.log("Attempt to delete Profile: " + firstNameString[0] + " " + lastNameString[0]);
                                             FirebaseAuth.getInstance().signOut();
                                             Toast.makeText(PupilProfileActivity.this, "Failed to authenticate. User logged out.", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(PupilProfileActivity.this, LoginActivity.class));

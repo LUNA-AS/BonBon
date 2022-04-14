@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.bonbon.R;
 import com.example.bonbon.data_management.Encryption;
+import com.example.bonbon.data_management.Validator;
 import com.example.bonbon.data_models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -92,56 +93,61 @@ public class RegistrationFragment extends Fragment {
                 if (email.contains("@")) {
                     if (!password.equals("")) {
                         if (password.equals(passwordCon)) {
-                            if (firstName.equals("")) {
-                                firstNameIn.requestFocus();
-                                firstNameIn.setError("This field cannot be empty");
-                            } else if (lastName.equals("")) {
-                                lastNameIn.requestFocus();
-                                lastNameIn.setError("This field cannot be empty");
-                            } else {
+                            if(Validator.checkPasswordIsStrong(password)){
+                                if (firstName.equals("")) {
+                                    firstNameIn.requestFocus();
+                                    firstNameIn.setError("This field cannot be empty");
+                                } else if (lastName.equals("")) {
+                                    lastNameIn.requestFocus();
+                                    lastNameIn.setError("This field cannot be empty");
+                                } else {
 // =========================================== VALID INPUT =========================================
-                                // Initialize user instance with verified data
-                                user = new User(firstName, lastName, email, Encryption.oneWayEncrypt(password));
-                                // Initialize auth
-                                mAuth = FirebaseAuth.getInstance();
-                                mAuth.createUserWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
-                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (task.isSuccessful()) {
-                                                    mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @RequiresApi(api = Build.VERSION_CODES.O)
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Toast.makeText(getContext(),
-                                                                        "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
+                                    // Initialize user instance with verified data
+                                    user = new User(firstName, lastName, email, Encryption.oneWayEncrypt(password));
+                                    // Initialize auth
+                                    mAuth = FirebaseAuth.getInstance();
+                                    mAuth.createUserWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
+                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @RequiresApi(api = Build.VERSION_CODES.O)
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    Toast.makeText(getContext(),
+                                                                            "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
 
-                                                                user.setID(mAuth.getUid());
+                                                                    user.setID(mAuth.getUid());
 
-                                                                // add data to database
-                                                                addUserToDatabase(user);
+                                                                    // add data to database
+                                                                    addUserToDatabase(user);
 
-                                                                // Go back to sign in
-                                                                getActivity().getSupportFragmentManager().beginTransaction()
-                                                                        .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
-                                                                        .commit();
-                                                            } else {
-                                                                Toast.makeText(getContext(),
-                                                                        "Failed to send email verification. Error: " + task.getException()
-                                                                                .getMessage(), Toast.LENGTH_SHORT).show();
+                                                                    // Go back to sign in
+                                                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                                                            .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
+                                                                            .commit();
+                                                                } else {
+                                                                    Toast.makeText(getContext(),
+                                                                            "Failed to send email verification. Error: " + task.getException()
+                                                                                    .getMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                } else {
-                                                    Toast.makeText(getContext(), "Registration Error: " + task.getException().getMessage()
-                                                            , Toast.LENGTH_SHORT).show();
-                                                    System.out.println(email);
-                                                    System.out.println(password);
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(getContext(), "Registration Error: " + task.getException().getMessage()
+                                                                , Toast.LENGTH_SHORT).show();
+                                                        System.out.println(email);
+                                                        System.out.println(password);
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                }
+                            }else{
+                                passIn.setError("Password should contain upper and lower case characters, numbers, and special characters.");
                             }
+
                         } else {
                             passIn.requestFocus();
                             passConIn.requestFocus();

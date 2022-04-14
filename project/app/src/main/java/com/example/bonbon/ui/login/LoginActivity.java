@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    // TODO log activity
+
                 }
             });
             promptInfo = new BiometricPrompt.PromptInfo.Builder()
