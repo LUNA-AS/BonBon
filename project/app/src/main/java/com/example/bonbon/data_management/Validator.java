@@ -34,4 +34,15 @@ public class Validator {
         }
         return false;
     }
+
+    public static boolean checkNoSpecialChars(String string){
+        for(int i = 0; i<string.length(); i++){
+            if(!Character.isLetterOrDigit(string.charAt(i))){
+                if(!String.valueOf(string.charAt(i)).equals("-")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

@@ -100,8 +100,7 @@ public class LoginFragment extends Fragment {
                                                 Toast.makeText(getContext(), "Please verify your email address", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
-                                            Toast.makeText(getContext(), "Login Error: " + task.getException()
-                                                    .getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Login Error: Invalid credentials" , Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

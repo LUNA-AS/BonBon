@@ -93,13 +93,19 @@ public class RegistrationFragment extends Fragment {
                 if (email.contains("@")) {
                     if (!password.equals("")) {
                         if (password.equals(passwordCon)) {
-                            if(Validator.checkPasswordIsStrong(password)){
+                            if (Validator.checkPasswordIsStrong(password)) {
                                 if (firstName.equals("")) {
                                     firstNameIn.requestFocus();
                                     firstNameIn.setError("This field cannot be empty");
                                 } else if (lastName.equals("")) {
                                     lastNameIn.requestFocus();
                                     lastNameIn.setError("This field cannot be empty");
+                                } else if (!Validator.checkNoSpecialChars(firstName)) {
+                                    firstNameIn.requestFocus();
+                                    firstNameIn.setError("Invalid name. Avoid using symbols.");
+                                } else if (!Validator.checkNoSpecialChars(lastName)) {
+                                    firstNameIn.requestFocus();
+                                    firstNameIn.setError("Invalid last name. Avoid using symbols.");
                                 } else {
 // =========================================== VALID INPUT =========================================
                                     // Initialize user instance with verified data
@@ -144,7 +150,7 @@ public class RegistrationFragment extends Fragment {
                                                 }
                                             });
                                 }
-                            }else{
+                            } else {
                                 passIn.setError("Password should contain upper and lower case characters, numbers, and special characters.");
                             }
 
