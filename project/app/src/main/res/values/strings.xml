@@ -45,4 +45,15 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="sign_in_instead">Already have an account? Sign in instead</string>
+    <string name="add_Profile_instructions">Use the navigation bar to navigate to the \'Class List\' page</string>
+    <string name="dasboardInstructions">The dashboard is the space where you can view the recently taken observations and a list of the pupil in the classroom ordered by their scores. The scores are recorded on taking an assessment. The app will keep track of all assessments you complete for each child to show on the dashboard an average score. If a child has a lower score, they will be shown first on the list and this way it will be visible which children require more attention in the classroom.</string>
+    <string name="edit_profiles">Each profile can be viewed, edited, and deleted. Viewing contact details and deleting profiles require biometric authentication. Make sure you have stored fingerprints accurately on your device and that you do not have any fingerprints of other people on your device.</string>
+    <string name="notes_instructions">Each note should be associated with at least one child. In the tags text box, you can see suggestions of pupil names from profiles you have created. Make sure you have your pupil profiles set up before starting to make notes. The tags are what the app uses to associate notes with particular children so it is very important that you fill tags in accurately.</string>
+    <string name="assessment_instructions">Assessments are there to provide a quick way to record how children are performing in the classroom. Each profile will have its own assessment card on the assessment page with three parameters to fill in:
+
+        \n •	Social skills: to measure how the child is interacting with their peers, teachers, and society in general. Observe how the child plays during play time, how they talk and express themselves to others, and how well they expand their social circle.
+        \n •	Health: observe the child’s health-related habits, hygiene, meals, and be on the lookout for any irregularities.
+        \n •	Learning: observe how the child comprehends and learns what is being taught in the class room. See what interests them and how well can they apply what they learn in practical exercises.
+\n For each measurement there is a rating bar to rate the child’s performance from 1 to 5. For each page there is also a save button. Assessments can be taken for a single selected child or a selected  group. However, it is recommended for the accuracy of data to complete the assessment for the entire class every time.
+</string>
 </resources>

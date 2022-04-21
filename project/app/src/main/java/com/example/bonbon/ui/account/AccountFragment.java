@@ -66,6 +66,10 @@ public class AccountFragment extends Fragment {
         final String[] firstName = {""};
         final String[] lastName = {""};
 
+
+        EditText fName = view.findViewById(R.id.editFirstName);
+        EditText lName = view.findViewById(R.id.editLastName);
+
         // get data
         FirebaseFirestore.getInstance().collection("teachers").document(FirebaseAuth.getInstance().getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -74,13 +78,12 @@ public class AccountFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 firstName[0] = documentSnapshot.getString("firstName");
                 lastName[0] = documentSnapshot.getString("lastName");
+                fName.setText(firstName[0]);
+                lName.setText(lastName[0]);
             }
         });
 
-        EditText fName = view.findViewById(R.id.editFirstName);
-        EditText lName = view.findViewById(R.id.editLastName);
-        fName.setText(firstName[0]);
-        lName.setText(lastName[0]);
+
 
         Button saveChanges = view.findViewById(R.id.updateAccount);
         saveChanges.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +94,7 @@ public class AccountFragment extends Fragment {
                     map.put("firstName", fName.getText().toString());
                 }
                 if (!lName.getText().toString().equals("")) {
-                    map.put("lastName", fName.getText().toString());
+                    map.put("lastName", lName.getText().toString());
                 }
                 FirebaseFirestore.getInstance().collection("teachers")
                         .document(FirebaseAuth.getInstance().getUid())

@@ -1,5 +1,7 @@
 package com.example.bonbon.ui.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -82,90 +84,106 @@ public class RegistrationFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get user details
-                String email, password, passwordCon, firstName, lastName;
-                email = emailIn.getText().toString().trim();
-                password = passIn.getText().toString();
-                passwordCon = passConIn.getText().toString();
-                firstName = firstNameIn.getText().toString();
-                lastName = lastNameIn.getText().toString();
-                User user;
-                if (email.contains("@")) {
-                    if (!password.equals("")) {
-                        if (password.equals(passwordCon)) {
-                            if (Validator.checkPasswordIsStrong(password)) {
-                                if (firstName.equals("")) {
-                                    firstNameIn.requestFocus();
-                                    firstNameIn.setError("This field cannot be empty");
-                                } else if (lastName.equals("")) {
-                                    lastNameIn.requestFocus();
-                                    lastNameIn.setError("This field cannot be empty");
-                                } else if (!Validator.checkNoSpecialChars(firstName)) {
-                                    firstNameIn.requestFocus();
-                                    firstNameIn.setError("Invalid name. Avoid using symbols.");
-                                } else if (!Validator.checkNoSpecialChars(lastName)) {
-                                    firstNameIn.requestFocus();
-                                    firstNameIn.setError("Invalid last name. Avoid using symbols.");
-                                } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("By registering to bonbon you agree to storing your data on the cloud and are required to ask for parents' permission before storing their children's data")
+                        .setTitle("Terms of Use")
+                        .setCancelable(true)
+                        .setPositiveButton("I Agree", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Get user details
+                                String email, password, passwordCon, firstName, lastName;
+                                email = emailIn.getText().toString().trim();
+                                password = passIn.getText().toString();
+                                passwordCon = passConIn.getText().toString();
+                                firstName = firstNameIn.getText().toString();
+                                lastName = lastNameIn.getText().toString();
+                                User user;
+                                if (email.contains("@")) {
+                                    if (!password.equals("")) {
+                                        if (password.equals(passwordCon)) {
+                                            if (Validator.checkPasswordIsStrong(password)) {
+                                                if (firstName.equals("")) {
+                                                    firstNameIn.requestFocus();
+                                                    firstNameIn.setError("This field cannot be empty");
+                                                } else if (lastName.equals("")) {
+                                                    lastNameIn.requestFocus();
+                                                    lastNameIn.setError("This field cannot be empty");
+                                                } else if (!Validator.checkNoSpecialChars(firstName)) {
+                                                    firstNameIn.requestFocus();
+                                                    firstNameIn.setError("Invalid name. Avoid using symbols.");
+                                                } else if (!Validator.checkNoSpecialChars(lastName)) {
+                                                    firstNameIn.requestFocus();
+                                                    firstNameIn.setError("Invalid last name. Avoid using symbols.");
+                                                } else {
 // =========================================== VALID INPUT =========================================
-                                    // Initialize user instance with verified data
-                                    user = new User(firstName, lastName, email, Encryption.oneWayEncrypt(password));
-                                    // Initialize auth
-                                    mAuth = FirebaseAuth.getInstance();
-                                    mAuth.createUserWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
-                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @RequiresApi(api = Build.VERSION_CODES.O)
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    Toast.makeText(getContext(),
-                                                                            "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
+                                                    // Initialize user instance with verified data
+                                                    user = new User(firstName, lastName, email, Encryption.oneWayEncrypt(password));
+                                                    // Initialize auth
+                                                    mAuth = FirebaseAuth.getInstance();
+                                                    mAuth.createUserWithEmailAndPassword(email, Encryption.oneWayEncrypt(password))
+                                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @RequiresApi(api = Build.VERSION_CODES.O)
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    Toast.makeText(getContext(),
+                                                                                            "User Registered! Check your inbox to confirm your email.", Toast.LENGTH_SHORT).show();
 
-                                                                    user.setID(mAuth.getUid());
+                                                                                    user.setID(mAuth.getUid());
 
-                                                                    // add data to database
-                                                                    addUserToDatabase(user);
+                                                                                    // add data to database
+                                                                                    addUserToDatabase(user);
 
-                                                                    // Go back to sign in
-                                                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                                                            .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
-                                                                            .commit();
-                                                                } else {
-                                                                    Toast.makeText(getContext(),
-                                                                            "Failed to send email verification. Error: " + task.getException()
-                                                                                    .getMessage(), Toast.LENGTH_SHORT).show();
+                                                                                    // Go back to sign in
+                                                                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                                                                            .replace(R.id.fragmentContainerView, LoginFragment.class, null) // gets the first animations
+                                                                                            .commit();
+                                                                                } else {
+                                                                                    Toast.makeText(getContext(),
+                                                                                            "Failed to send email verification. Error: " + task.getException()
+                                                                                                    .getMessage(), Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        Toast.makeText(getContext(), "Registration Error: " + task.getException().getMessage()
+                                                                                , Toast.LENGTH_SHORT).show();
+                                                                        System.out.println(email);
+                                                                        System.out.println(password);
+                                                                    }
                                                                 }
-                                                            }
-                                                        });
-                                                    } else {
-                                                        Toast.makeText(getContext(), "Registration Error: " + task.getException().getMessage()
-                                                                , Toast.LENGTH_SHORT).show();
-                                                        System.out.println(email);
-                                                        System.out.println(password);
-                                                    }
+                                                            });
                                                 }
-                                            });
-                                }
-                            } else {
-                                passIn.setError("Password should contain upper and lower case characters, numbers, and special characters.");
-                            }
+                                            } else {
+                                                passIn.setError("Password should contain upper and lower case characters, numbers, and special characters.");
+                                            }
 
-                        } else {
-                            passIn.requestFocus();
-                            passConIn.requestFocus();
-                            passConIn.setError("Passwords do not match!");
-                        }
-                    } else {
-                        passIn.setError("Password cannot be empty");
+                                        } else {
+                                            passIn.requestFocus();
+                                            passConIn.requestFocus();
+                                            passConIn.setError("Passwords do not match!");
+                                        }
+                                    } else {
+                                        passIn.setError("Password cannot be empty");
+                                    }
+                                } else {
+                                    emailIn.requestFocus();
+                                    emailIn.setError("Invalid email address");
+                                }
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
-                } else {
-                    emailIn.requestFocus();
-                    emailIn.setError("Invalid email address");
-                }
+                });
+                builder.show();
+
             }
         });
 
