@@ -221,7 +221,6 @@ public class RegistrationFragment extends Fragment {
         db.collection("keys").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                // TODO add logging
                 System.out.println("added key pair");
             }
         });

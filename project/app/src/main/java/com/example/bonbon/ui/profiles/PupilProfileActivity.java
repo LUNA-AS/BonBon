@@ -160,7 +160,7 @@ public class PupilProfileActivity extends AppCompatActivity {
                 super.onAuthenticationFailed();
                 authFailCount[0]++;
                 if (authFailCount[0] > 2) {
-                    Logger.log("Failed attempt to view child details for: " + firstNameString[0]);
+                    Logger.log("Failed attempt to view child details for: " + firstNameString[0] + " " + lastNameString[0]);
                     FirebaseAuth.getInstance().signOut();
                     finish();
                     startActivity(new Intent(PupilProfileActivity.this, LoginActivity.class));

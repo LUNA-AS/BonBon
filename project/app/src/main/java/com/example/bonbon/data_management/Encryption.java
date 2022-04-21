@@ -23,7 +23,7 @@ public class Encryption {
     private static SecretKeySpec secretKey;
     private static byte[] key;
 
-    public static void _setKey(final String myKey) {
+    private static void _setKey(final String myKey) {
         MessageDigest sha = null;
         try {
             key = myKey.getBytes("UTF-8");
@@ -69,11 +69,7 @@ public class Encryption {
 
     public static String oneWayEncrypt(String UID) {
         String result = "";
-        /*
-         * get UID and hash it
-         * append reversed UID to hash
-         * hash the resulting string
-         * */
+
         System.out.println(UID);
         String hash1 = null;
         try {

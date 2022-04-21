@@ -90,7 +90,6 @@ public class LoginFragment extends Fragment {
                                                         // Get encryption key
                                                         String key = documentSnapshot.getString("key");
                                                         Encryption.setKey(key);
-                                                        System.out.println("KEY: " + key);
                                                         startActivity(new Intent(getContext(), MainActivity.class));
                                                         getActivity().finish();
                                                     }
